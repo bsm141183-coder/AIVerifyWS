@@ -1,0 +1,1079 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Оценивание HTML (РО + Лист урока + WorldSkills)</title>
+  <style>
+    :root{
+      --bg:#0b0d12;
+      --card:#121724;
+      --card2:#0f1420;
+      --text:#e8edf7;
+      --muted:#a8b3cc;
+      --line:#25304a;
+      --ok:#66d19e;
+      --warn:#ffcc66;
+      --bad:#ff6b6b;
+      --btn:#2b7cff;
+      --btn2:#1f2a44;
+      --shadow: 0 12px 30px rgba(0,0,0,.35);
+      --radius:14px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      background: radial-gradient(1200px 800px at 15% 0%, #141a2a, var(--bg));
+      color:var(--text);
+      line-height:1.35;
+    }
+    header{
+      padding: 22px 18px 8px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    h1{margin:0 0 6px;font-size:20px;font-weight:750}
+    .sub{color:var(--muted);font-size:13px}
+    .wrap{
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 18px 28px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 14px;
+    }
+    @media (max-width: 980px){
+      .wrap{grid-template-columns: 1fr}
+    }
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border: 1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card .hd{
+      padding: 14px 14px 12px;
+      border-bottom:1px solid rgba(255,255,255,.06);
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content: space-between;
+    }
+    .title{
+      font-weight: 700;
+      font-size: 14px;
+      margin:0;
+    }
+    .tools{display:flex;gap:8px;flex-wrap:wrap}
+    button, .btn{
+      border: 1px solid rgba(255,255,255,.12);
+      background: var(--btn2);
+      color: var(--text);
+      padding: 9px 11px;
+      border-radius: 11px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: .15s;
+    }
+    button.primary{
+      background: var(--btn);
+      border-color: rgba(255,255,255,.22);
+    }
+    button:hover{transform: translateY(-1px)}
+    button:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .bd{padding: 14px}
+    .grid2{display:grid;grid-template-columns: 1fr 1fr; gap: 10px}
+    @media (max-width: 980px){ .grid2{grid-template-columns:1fr} }
+    label{display:block;color:var(--muted);font-size:12px;margin: 0 0 6px}
+    input[type="text"], input[type="password"], textarea, select{
+      width:100%;
+      padding: 10px 11px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      color: var(--text);
+      outline: none;
+      font-size: 13px;
+    }
+    textarea{min-height: 90px; resize: vertical}
+    input[type="file"]{
+      width:100%;
+      padding: 10px 11px;
+      border-radius: 12px;
+      border: 1px dashed rgba(255,255,255,.18);
+      background: rgba(0,0,0,.12);
+      color: var(--muted);
+    }
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .pill{
+      display:inline-flex;align-items:center;gap:7px;
+      padding: 7px 10px;border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .pill b{color:var(--text);font-weight:700}
+    .ok{color:var(--ok)}
+    .warn{color:var(--warn)}
+    .bad{color:var(--bad)}
+    .mono{font-family: var(--mono)}
+    .sep{height:1px;background:rgba(255,255,255,.06);margin: 12px 0}
+    table{width:100%;border-collapse: collapse}
+    th, td{
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      padding: 9px 8px;
+      vertical-align: top;
+      font-size: 13px;
+    }
+    th{color:var(--muted);font-weight:650;text-align:left}
+    .small{font-size:12px;color:var(--muted)}
+    .scoreBox{
+      display:grid;grid-template-columns: 1fr 1fr; gap: 10px;
+    }
+    .bigScore{
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 14px;
+      padding: 12px 12px 10px;
+    }
+    .bigScore .n{
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: .3px;
+      margin: 0;
+    }
+    .bigScore .s{
+      margin: 2px 0 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .tag{
+      display:inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: var(--text);
+    }
+    .issues li{margin: 6px 0}
+    .kbd{
+      font-family: var(--mono);
+      font-size: 12px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.22);
+      border-radius: 8px;
+      padding: 2px 6px;
+      color: var(--text);
+    }
+    .note{
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.18);
+      border-radius: 12px;
+      padding: 10px 11px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .rightcol .bd{padding-top: 10px}
+    .sticky{
+      position: sticky;
+      top: 10px;
+    }
+    .hidden{display:none !important}
+    .nowrap{white-space:nowrap}
+  </style>
+</head>
+<body>
+<header>
+  <h1>Единая проверка HTML: РО (30) + Лист урока (40) + WorldSkills (20) + Бонус (10)</h1>
+  <div class="sub">Статический сайт для GitHub Pages: загрузка HTML, автопроверка структуры/тегов, расчёт баллов, отчёт, экспорт JSON. Опционально — ИИ-оценка через введённый ключ.</div>
+</header>
+
+<div class="wrap">
+  <!-- LEFT -->
+  <section class="card">
+    <div class="hd">
+      <p class="title">1) Загрузка работы и данные пары</p>
+      <div class="tools">
+        <button class="primary" id="btnEvaluate">Проверить и выставить баллы</button>
+        <button id="btnReset">Сброс</button>
+      </div>
+    </div>
+    <div class="bd">
+      <div class="grid2">
+        <div>
+          <label>Файл студента (.html)</label>
+          <input id="fileHtml" type="file" accept=".html,text/html" />
+          <div class="small" style="margin-top:6px">
+            Совет: пусть студенты называют файл как <span class="kbd">group_studentA_studentB.html</span>
+          </div>
+        </div>
+        <div>
+          <label>Профиль задания</label>
+          <select id="profile">
+            <option value="tech">Технико-технологическая тематика (по умолчанию)</option>
+            <option value="rail">Железнодорожная тематика (КТЖ/депо/локомотивы)</option>
+            <option value="it">ИТ-инфраструктура (серверы/сети/кабелирование)</option>
+            <option value="free">Свободная тематика (снять проверку контекста)</option>
+          </select>
+          <div class="small" style="margin-top:6px">Профиль влияет на проверку “Professional context” (WS).</div>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="grid2">
+        <div>
+          <label>Студент A (ФИО/ник)</label>
+          <input id="studentA" type="text" placeholder="Напр.: Айдос" />
+        </div>
+        <div>
+          <label>Роль студента A</label>
+          <select id="roleA">
+            <option value="structure">Роль: Структура (каркас страницы, теги, вложенность)</option>
+            <option value="content">Роль: Контент (тексты, заголовки, смысловая часть)</option>
+            <option value="mixed">Роль: Смешанная</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Студент B (ФИО/ник)</label>
+          <input id="studentB" type="text" placeholder="Напр.: Мадина" />
+        </div>
+        <div>
+          <label>Роль студента B</label>
+          <select id="roleB">
+            <option value="content">Роль: Контент (тексты, заголовки, смысловая часть)</option>
+            <option value="structure">Роль: Структура (каркас страницы, теги, вложенность)</option>
+            <option value="mixed">Роль: Смешанная</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="grid2">
+        <div>
+          <label>Осознанность (объяснение: зачем каждый тег) — текст студента/пары</label>
+          <textarea id="txtAwareness" placeholder="Кратко (2–6 предложений): зачем использованы html, head, body, title, h1, p..."></textarea>
+        </div>
+        <div>
+          <label>Рефлексия — текст (2 ошибки + 2 улучшения)</label>
+          <textarea id="txtReflection" placeholder="Напр.: Ошибка: не было title… Улучшение: добавить описание проекта, структурировать абзацы…"></textarea>
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-top:10px">
+        <div>
+          <label>Work organisation (WS): как распределили время/роль (1–4 предложения)</label>
+          <textarea id="txtWorkOrg" placeholder="Напр.: A сделал структуру и заголовки, B — контент; 10 мин план, 20 мин код, 10 мин проверка, 5 мин рефлексия."></textarea>
+        </div>
+        <div>
+          <label>Communication (WS): краткое объяснение решения (1–4 предложения)</label>
+          <textarea id="txtCommunication" placeholder="Напр.: Использовали h1 как главный заголовок, p для описания. Title отражает тему."></textarea>
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="note">
+        <b>Примечание по справедливости.</b> Критерий “самостоятельность/без копирования” технически не доказывается без истории версий или сравнения работ группы. В этом сайте он выставляется <b>вручную</b> (или опционально через ИИ на основе ваших текстов), и отмечается как “по предоставленным данным”.
+      </div>
+    </div>
+  </section>
+
+  <!-- RIGHT -->
+  <section class="card rightcol">
+    <div class="hd">
+      <p class="title">2) Итог, уровни, экспорт</p>
+      <div class="tools">
+        <button id="btnExportJson">Экспорт JSON</button>
+        <button id="btnPrint">Печать / PDF</button>
+      </div>
+    </div>
+    <div class="bd sticky">
+      <div class="scoreBox">
+        <div class="bigScore">
+          <p class="n"><span id="totalScore">—</span><span class="small">/100</span></p>
+          <p class="s">Итоговый балл</p>
+        </div>
+        <div class="bigScore">
+          <p class="n" id="level">—</p>
+          <p class="s">Уровень достижения</p>
+        </div>
+      </div>
+
+      <div style="margin-top:10px" class="row">
+        <span class="pill"><b>РО</b> <span id="sumRO">—</span>/30</span>
+        <span class="pill"><b>Лист урока</b> <span id="sumLesson">—</span>/40</span>
+        <span class="pill"><b>WorldSkills</b> <span id="sumWS">—</span>/20</span>
+        <span class="pill"><b>Бонус</b> <span id="sumBonus">—</span>/10</span>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="row" style="justify-content: space-between; gap: 8px">
+        <div class="small">Режим ИИ (опционально):</div>
+        <label class="pill" style="cursor:pointer">
+          <input id="useAI" type="checkbox" style="transform: translateY(1px)" />
+          <span>включить</span>
+        </label>
+      </div>
+
+      <div id="aiBox" class="hidden" style="margin-top:10px">
+        <label>OpenAI API Key (сохранится в браузере, localStorage)</label>
+        <input id="apiKey" type="password" placeholder="sk-..." />
+        <div class="small" style="margin-top:6px">
+          Модель по умолчанию: <span class="kbd">gpt-4.1-mini</span>. Ключ хранится только у вас в браузере.
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button id="btnSaveKey">Сохранить ключ</button>
+          <button id="btnClearKey">Удалить ключ</button>
+          <button class="primary" id="btnAIGrade">ИИ-оценка (тексты + контекст)</button>
+        </div>
+        <div class="note" style="margin-top:10px">
+          Если вы публикуете сайт публично, <b>не вводите ключ на чужом компьютере</b>. Для полной безопасности нужен сервер/worker.
+        </div>
+      </div>
+
+      <div class="sep"></div>
+
+      <p class="title" style="margin:0 0 10px">Детализация баллов</p>
+      <table>
+        <thead>
+        <tr>
+          <th>Критерий</th>
+          <th class="nowrap">Баллы</th>
+        </tr>
+        </thead>
+        <tbody id="scoreRows"></tbody>
+      </table>
+
+      <div class="sep"></div>
+      <p class="title" style="margin:0 0 8px">Замечания (issues)</p>
+      <ul class="issues" id="issues"></ul>
+
+      <div class="sep"></div>
+      <p class="title" style="margin:0 0 8px">Рекомендации</p>
+      <ul class="issues" id="reco"></ul>
+
+    </div>
+  </section>
+
+  <!-- FULL WIDTH REPORT -->
+  <section class="card" style="grid-column: 1 / -1;">
+    <div class="hd">
+      <p class="title">3) Автопроверка HTML (доказательная часть)</p>
+      <div class="tools">
+        <button id="btnToggleHtml">Показать/скрыть код</button>
+      </div>
+    </div>
+    <div class="bd">
+      <div class="row" style="gap:8px;flex-wrap:wrap">
+        <span class="pill"><b>Теги</b> найдено: <span id="foundTags">—</span></span>
+        <span class="pill"><b>Отсутствует</b>: <span id="missingTags">—</span></span>
+        <span class="pill"><b>Вложенность</b>: <span id="nestingOk">—</span></span>
+        <span class="pill"><b>Парсинг</b>: <span id="parseOk">—</span></span>
+        <span class="pill"><b>Техн. контекст</b>: <span id="contextHint">—</span></span>
+      </div>
+
+      <div class="sep"></div>
+
+      <div id="htmlBox" class="hidden">
+        <label>HTML (как загружено)</label>
+        <textarea id="htmlView" class="mono" style="min-height:220px"></textarea>
+      </div>
+
+      <div class="note" style="margin-top:12px">
+        Автопроверка ориентирована на базовый уровень темы: наличие тегов <span class="kbd">html/head/body/title/h1/p</span>, логическая вложенность и критические ошибки структуры.
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+/* =========================
+   РУБРИКА (ваша)
+========================= */
+const RUBRIC = {
+  topic: "HTML-документ. Главная страница сайта",
+  blocks: [
+    {
+      id: "RO_5_2_1",
+      name: "Соответствие результату обучения (РО 5.2.1)",
+      max: 30,
+      criteria: [
+        { id:"ro_html_basic_tags", name:"Разработка HTML-страницы", max:10, mode:"auto",
+          descriptor:"Создан HTML-документ с использованием базовых тегов (html, head, body, title, h1, p)" },
+        { id:"ro_structure_nesting", name:"Структура документа", max:10, mode:"auto",
+          descriptor:"Соблюдена логическая иерархия и вложенность тегов" },
+        { id:"ro_syntax_errors", name:"Корректность синтаксиса", max:10, mode:"auto",
+          descriptor:"Отсутствуют критические синтаксические ошибки" },
+      ]
+    },
+    {
+      id: "LESSON_QUALITY",
+      name: "Критерии по листу оценивания урока (качество учебной деятельности)",
+      max: 40,
+      criteria: [
+        { id:"lq_awareness", name:"Осознанность выполнения задания", max:10, mode:"manual_or_ai",
+          descriptor:"Студент понимает цель задания и объясняет, зачем используется каждый тег" },
+        { id:"lq_independence", name:"Самостоятельность и ответственность", max:10, mode:"manual",
+          descriptor:"Работа выполнена без копирования, студент отвечает за свой фрагмент" },
+        { id:"lq_pair_interaction", name:"Взаимодействие в паре", max:10, mode:"manual_or_ai",
+          descriptor:"Роли соблюдены, есть рабочее взаимодействие" },
+        { id:"lq_reflection", name:"Рефлексия", max:10, mode:"manual_or_ai",
+          descriptor:"Студент может назвать допущенные ошибки и способы улучшения" },
+      ]
+    },
+    {
+      id: "WORLDSKILLS",
+      name: "WorldSkills (adaptation: Web Technologies)",
+      max: 20,
+      criteria: [
+        { id:"ws_work_org", name:"Work organisation & management", max:5, mode:"manual_or_ai",
+          descriptor:"Рациональное распределение ролей и времени" },
+        { id:"ws_tech_accuracy", name:"Technical accuracy", max:5, mode:"auto",
+          descriptor:"Код читаемый, структурированный, валидный" },
+        { id:"ws_prof_context", name:"Professional context", max:5, mode:"auto_plus_ai",
+          descriptor:"Контент соответствует технико-технологической тематике" },
+        { id:"ws_communication", name:"Communication", max:5, mode:"manual_or_ai",
+          descriptor:"Умение объяснить решение (устно или письменно)" },
+      ]
+    },
+    {
+      id:"BONUS",
+      name:"Бонус",
+      max:10,
+      criteria: [
+        { id:"bonus", name:"Бонус", max:10, mode:"manual_or_ai",
+          descriptor:"Инициатива / улучшение структуры / качественная рефлексия" }
+      ]
+    }
+  ],
+  levels: [
+    { name:"Высокий", min:80, max:100 },
+    { name:"Средний", min:60, max:79 },
+    { name:"Базовый", min:40, max:59 },
+    { name:"Ниже базового", min:0, max:39 },
+  ]
+};
+
+/* =========================
+   UI helpers
+========================= */
+const $ = (id)=>document.getElementById(id);
+function setText(id, v){ $(id).textContent = v; }
+function escapeHTML(s){
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[c]));
+}
+function clampInt(n, min, max){
+  n = Number.isFinite(Number(n)) ? Math.round(Number(n)) : 0;
+  return Math.max(min, Math.min(max, n));
+}
+function levelByScore(score){
+  const s = Number(score)||0;
+  for (const L of RUBRIC.levels){
+    if (s >= L.min && s <= L.max) return L.name;
+  }
+  return "—";
+}
+function addIssue(list, criterion_id, severity, message){
+  list.push({ criterion_id, severity, message });
+}
+function addReco(list, msg){
+  list.push(msg);
+}
+function sevClass(sev){
+  if (sev === "critical") return "bad";
+  if (sev === "warn") return "warn";
+  return "ok";
+}
+
+/* =========================
+   Автопроверки HTML
+========================= */
+function autoChecks(html){
+  const required = ["html","head","body","title","h1","p"];
+  const found = [];
+  const missing = [];
+
+  for (const t of required){
+    const re = new RegExp(`<\\s*${t}(\\s|>)`, "i");
+    if (re.test(html)) found.push(t);
+    else missing.push(t);
+  }
+
+  // примитивные проверки вложенности
+  const nesting = {
+    html_has_head: /<html[\s>][\s\S]*<head[\s>]/i.test(html),
+    html_has_body: /<html[\s>][\s\S]*<body[\s>]/i.test(html),
+    head_has_title: /<head[\s>][\s\S]*<title[\s>][\s\S]*<\/title>/i.test(html),
+    body_has_h1: /<body[\s>][\s\S]*<h1[\s>]/i.test(html),
+    body_has_p: /<body[\s>][\s\S]*<p[\s>]/i.test(html),
+  };
+  const nesting_ok = Object.values(nesting).every(Boolean);
+
+  // критические ошибки — упрощённо
+  const critical = [];
+  if (!/<!doctype html>/i.test(html)) critical.push("Отсутствует <!doctype html> (желательно для корректного режима браузера).");
+  if (!/<\/html>/i.test(html)) critical.push("Не найден закрывающий тег </html> (возможна критическая ошибка структуры).");
+  if (!/<\/head>/i.test(html)) critical.push("Не найден закрывающий тег </head>.");
+  if (!/<\/body>/i.test(html)) critical.push("Не найден закрывающий тег </body>.");
+
+  const parse_ok = critical.length === 0; // для статического сайта без парсера DOM считаем так
+
+  return { found_tags: found, missing_tags: missing, nesting_ok, parse_ok, critical };
+}
+
+function scoreRO(auto, issues, reco){
+  // 1) базовые теги (0–10)
+  const c = auto.found_tags.length;
+  let ro_html_basic_tags = 0;
+  if (c >= 6) ro_html_basic_tags = 10;
+  else if (c === 5) ro_html_basic_tags = 8;
+  else if (c === 4) ro_html_basic_tags = 6;
+  else if (c === 3) ro_html_basic_tags = 4;
+  else if (c === 2) ro_html_basic_tags = 2;
+  else ro_html_basic_tags = 0;
+
+  if (auto.missing_tags.length){
+    addIssue(issues, "ro_html_basic_tags", "warn", "Отсутствуют обязательные базовые теги: " + auto.missing_tags.join(", "));
+    addReco(reco, "Добавьте базовые теги: html, head, body, title, h1, p (минимум по теме).");
+  }
+
+  // 2) структура (0–10)
+  let ro_structure_nesting = auto.nesting_ok ? 10 : 4;
+  if (!auto.nesting_ok){
+    addIssue(issues, "ro_structure_nesting", "critical", "Нарушена логическая вложенность (title должен быть в head; h1 и p — в body).");
+    addReco(reco, "Проверьте вложенность: <title> внутри <head>, а <h1> и <p> внутри <body>.");
+  }
+
+  // 3) синтаксис/критические (0–10)
+  let ro_syntax_errors = 10;
+  if (!auto.parse_ok){
+    ro_syntax_errors = 3;
+    for (const m of auto.critical){
+      addIssue(issues, "ro_syntax_errors", "critical", m);
+    }
+    addReco(reco, "Закройте секции head/body/html; убедитесь, что документ корректно открывается в браузере без поломки структуры.");
+  } else if (auto.critical.length){
+    ro_syntax_errors = 7;
+    for (const m of auto.critical){
+      addIssue(issues, "ro_syntax_errors", "warn", m);
+    }
+  }
+
+  return { ro_html_basic_tags, ro_structure_nesting, ro_syntax_errors };
+}
+
+function scoreWSTech(auto, issues, reco){
+  // ws_tech_accuracy (0–5)
+  // простая логика: если критика — 1; если вложенность плохая — 3; иначе 5
+  let ws_tech_accuracy = 5;
+  if (!auto.parse_ok) ws_tech_accuracy = 1;
+  else if (!auto.nesting_ok) ws_tech_accuracy = 3;
+
+  if (ws_tech_accuracy <= 3){
+    addIssue(issues, "ws_tech_accuracy", "warn", "Техническая точность снижена из-за структуры/закрытия тегов.");
+    addReco(reco, "Сделайте код читабельным: корректные закрывающие теги, логичная структура, отступы.");
+  }
+  return ws_tech_accuracy;
+}
+
+function contextKeywords(profile){
+  if (profile === "free") return [];
+  if (profile === "rail") return ["локомотив","депо","вагон","станция","путь","рельс","КТЖ","теміржол","rail","train"];
+  if (profile === "it") return ["сервер","сеть","кабель","коммутатор","маршрутизатор","стойка","админ","infrastructure","network","server"];
+  // tech default
+  return ["технолог","техничес","инженер","оборуд","производ","техник","technology","technical","engineering"];
+}
+
+function scoreWSContextAuto(html, profile, issues, reco){
+  // ws_prof_context (0–5) авто-оценка по ключевым словам (подсказка)
+  if (profile === "free"){
+    return { score: 5, hint: "Профиль свободный: проверка контекста отключена." };
+  }
+  const text = html.toLowerCase();
+  const keys = contextKeywords(profile);
+  let hits = 0;
+  for (const k of keys){
+    if (text.includes(k.toLowerCase())) hits++;
+  }
+  let score = 0;
+  if (hits >= 3) score = 5;
+  else if (hits === 2) score = 4;
+  else if (hits === 1) score = 3;
+  else score = 1;
+
+  if (score <= 3){
+    addIssue(issues, "ws_prof_context", "warn", "Слабая привязка контента к технико-технологической тематике (по ключевым признакам).");
+    addReco(reco, "Добавьте технико-технологический контент: название проекта, описание оборудования/процесса/объекта, терминологию по теме.");
+  }
+  const hint = hits ? `Найдено совпадений по контексту: ${hits}` : "Совпадений по контексту не найдено";
+  return { score, hint };
+}
+
+/* =========================
+   Ручные баллы (без ИИ)
+========================= */
+function manualScoresFromText(inputs, issues, reco){
+  // Удобная полуавтоматическая эвристика:
+  // - если поле пустое — 0–2
+  // - если есть 2–3 предложения — 6–8
+  // - если явно объясняет теги/ошибки — до максимума
+  function scoreText(t, max, criterion_id, recoMsg){
+    const s = (t||"").trim();
+    if (!s){
+      addIssue(issues, criterion_id, "warn", "Нет текста для оценивания (критерий требует наблюдаемого объяснения/рефлексии).");
+      addReco(reco, recoMsg);
+      return Math.min(2, max);
+    }
+    const len = s.length;
+    if (len < 60) return Math.min(5, max);
+    if (len < 160) return Math.min(8, max);
+    return max;
+  }
+
+  const lq_awareness = scoreText(inputs.awareness, 10, "lq_awareness",
+    "Добавьте объяснение: зачем используются html/head/body/title/h1/p и как это влияет на структуру страницы.");
+  const lq_reflection = scoreText(inputs.reflection, 10, "lq_reflection",
+    "Добавьте рефлексию: минимум 2 ошибки и 2 улучшения (конкретно).");
+  const ws_work_org = clampInt(scoreText(inputs.workOrg, 5, "ws_work_org",
+    "Опишите распределение ролей и времени выполнения (коротко)."), 0, 5);
+  const ws_communication = clampInt(scoreText(inputs.communication, 5, "ws_communication",
+    "Добавьте краткое объяснение решения: почему выбранные теги и структура соответствуют задаче."), 0, 5);
+
+  // Ручные критерии: самостоятельность и взаимодействие — даём поля ввода через prompt (учителю)
+  let lq_independence = 0;
+  let lq_pair_interaction = 0;
+  let bonus = 0;
+
+  // Если ранее уже введены — используем сохранённые
+  lq_independence = clampInt(Number(localStorage.getItem("lq_independence")||"0"), 0, 10);
+  lq_pair_interaction = clampInt(Number(localStorage.getItem("lq_pair_interaction")||"0"), 0, 10);
+  bonus = clampInt(Number(localStorage.getItem("bonus")||"0"), 0, 10);
+
+  if (lq_independence === 0){
+    addIssue(issues, "lq_independence", "info", "Самостоятельность выставляется учителем вручную (по наблюдениям/политике урока).");
+  }
+  if (lq_pair_interaction === 0){
+    addIssue(issues, "lq_pair_interaction", "info", "Взаимодействие в паре выставляется учителем вручную (по наблюдению соблюдения ролей).");
+  }
+
+  return { lq_awareness, lq_independence, lq_pair_interaction, lq_reflection, ws_work_org, ws_communication, bonus };
+}
+
+/* =========================
+   Ручной ввод баллов учителем
+========================= */
+function promptTeacherScores(){
+  const ind = clampInt(prompt("Самостоятельность и ответственность (0–10):", localStorage.getItem("lq_independence")||"0"), 0, 10);
+  const pair = clampInt(prompt("Взаимодействие в паре (0–10):", localStorage.getItem("lq_pair_interaction")||"0"), 0, 10);
+  const bon = clampInt(prompt("Бонус (0–10):", localStorage.getItem("bonus")||"0"), 0, 10);
+
+  localStorage.setItem("lq_independence", String(ind));
+  localStorage.setItem("lq_pair_interaction", String(pair));
+  localStorage.setItem("bonus", String(bon));
+  alert("Сохранено. Теперь нажмите «Проверить и выставить баллы» ещё раз.");
+}
+
+/* =========================
+   РЕНДЕР РЕЗУЛЬТАТОВ
+========================= */
+function renderResult(result){
+  setText("totalScore", result.total_score);
+  setText("level", result.level);
+
+  setText("sumRO", result.sums.RO);
+  setText("sumLesson", result.sums.LESSON_QUALITY);
+  setText("sumWS", result.sums.WORLDSKILLS);
+  setText("sumBonus", result.sums.BONUS);
+
+  // rows
+  const rows = [];
+  for (const b of RUBRIC.blocks){
+    rows.push(`<tr><th colspan="2">${escapeHTML(b.name)} <span class="small">(${b.max})</span></th></tr>`);
+    for (const c of b.criteria){
+      const v = result.scores_by_criteria[c.id];
+      rows.push(`
+        <tr>
+          <td>
+            <div style="font-weight:650">${escapeHTML(c.name)}</div>
+            <div class="small">${escapeHTML(c.descriptor)}</div>
+          </td>
+          <td class="nowrap"><span class="tag">${v}/${c.max}</span></td>
+        </tr>
+      `);
+    }
+  }
+  $("scoreRows").innerHTML = rows.join("");
+
+  // issues
+  if (!result.issues.length){
+    $("issues").innerHTML = `<li class="ok">Замечаний нет.</li>`;
+  } else {
+    $("issues").innerHTML = result.issues.map(i => {
+      return `<li class="${sevClass(i.severity)}"><span class="mono">${escapeHTML(i.criterion_id)}</span>: ${escapeHTML(i.message)}</li>`;
+    }).join("");
+  }
+
+  // recommendations
+  if (!result.recommendations.length){
+    $("reco").innerHTML = `<li class="ok">Рекомендаций нет.</li>`;
+  } else {
+    $("reco").innerHTML = result.recommendations.map(r => `<li>${escapeHTML(r)}</li>`).join("");
+  }
+
+  // evidence
+  setText("foundTags", result.evidence.auto_checks.found_tags.join(", ") || "—");
+  setText("missingTags", result.evidence.auto_checks.missing_tags.join(", ") || "—");
+  setText("nestingOk", result.evidence.auto_checks.nesting_ok ? "OK" : "FAIL");
+  setText("parseOk", result.evidence.auto_checks.parse_ok ? "OK" : "FAIL");
+  setText("contextHint", result.evidence.context_hint || "—");
+}
+
+/* =========================
+   ОСНОВНАЯ ОЦЕНКА (без ИИ)
+========================= */
+let loadedHTML = "";
+let lastResult = null;
+
+async function readFileAsText(file){
+  return new Promise((resolve, reject)=>{
+    const r = new FileReader();
+    r.onload = ()=>resolve(String(r.result||""));
+    r.onerror = ()=>reject(r.error);
+    r.readAsText(file, "utf-8");
+  });
+}
+
+function buildResultFromLocal(){
+  const issues = [];
+  const recommendations = [];
+
+  // inputs
+  const profile = $("profile").value;
+  const studentA = ($("studentA").value||"").trim();
+  const studentB = ($("studentB").value||"").trim();
+
+  const inputs = {
+    studentA, studentB,
+    roleA: $("roleA").value,
+    roleB: $("roleB").value,
+    awareness: $("txtAwareness").value,
+    reflection: $("txtReflection").value,
+    workOrg: $("txtWorkOrg").value,
+    communication: $("txtCommunication").value
+  };
+
+  if (!loadedHTML){
+    addIssue(issues, "file", "critical", "Не загружен HTML-файл студента.");
+    addReco(recommendations, "Загрузите файл .html и повторите проверку.");
+  }
+
+  // auto checks
+  const auto = autoChecks(loadedHTML || "");
+  const ro = scoreRO(auto, issues, recommendations);
+  const ws_tech_accuracy = scoreWSTech(auto, issues, recommendations);
+  const ctx = scoreWSContextAuto(loadedHTML || "", profile, issues, recommendations);
+
+  // manual / heuristic for non-auto
+  const manual = manualScoresFromText(inputs, issues, recommendations);
+
+  // Assemble scores
+  const scores_by_criteria = {
+    ...ro,
+    lq_awareness: clampInt(manual.lq_awareness, 0, 10),
+    lq_independence: clampInt(manual.lq_independence, 0, 10),
+    lq_pair_interaction: clampInt(manual.lq_pair_interaction, 0, 10),
+    lq_reflection: clampInt(manual.lq_reflection, 0, 10),
+
+    ws_work_org: clampInt(manual.ws_work_org, 0, 5),
+    ws_tech_accuracy: clampInt(ws_tech_accuracy, 0, 5),
+    ws_prof_context: clampInt(ctx.score, 0, 5),
+    ws_communication: clampInt(manual.ws_communication, 0, 5),
+
+    bonus: clampInt(manual.bonus, 0, 10)
+  };
+
+  const sums = {
+    RO: scores_by_criteria.ro_html_basic_tags + scores_by_criteria.ro_structure_nesting + scores_by_criteria.ro_syntax_errors,
+    LESSON_QUALITY: scores_by_criteria.lq_awareness + scores_by_criteria.lq_independence + scores_by_criteria.lq_pair_interaction + scores_by_criteria.lq_reflection,
+    WORLDSKILLS: scores_by_criteria.ws_work_org + scores_by_criteria.ws_tech_accuracy + scores_by_criteria.ws_prof_context + scores_by_criteria.ws_communication,
+    BONUS: scores_by_criteria.bonus
+  };
+
+  const total_score = sums.RO + sums.LESSON_QUALITY + sums.WORLDSKILLS + sums.BONUS;
+  const level = levelByScore(total_score);
+
+  // additional fairness notes
+  if ((scores_by_criteria.lq_independence === 0) && (loadedHTML)){
+    addIssue(issues, "lq_independence", "info", "Если вы наблюдали самостоятельность, выставьте баллы через кнопку «Ручные баллы учителя» (в меню сбоку).");
+  }
+
+  return {
+    meta: {
+      topic: RUBRIC.topic,
+      profile,
+      studentA, studentB,
+      roleA: inputs.roleA,
+      roleB: inputs.roleB,
+      evaluated_at: new Date().toISOString()
+    },
+    total_score,
+    level,
+    scores_by_criteria,
+    sums,
+    issues,
+    recommendations,
+    evidence: {
+      auto_checks: auto,
+      context_hint: ctx.hint,
+      student_inputs: {
+        awareness: inputs.awareness,
+        reflection: inputs.reflection,
+        workOrg: inputs.workOrg,
+        communication: inputs.communication
+      }
+    }
+  };
+}
+
+/* =========================
+   ИИ-ОЦЕНКА (опционально)
+   (в браузере, с ключом)
+========================= */
+function getSavedKey(){
+  return localStorage.getItem("OPENAI_API_KEY") || "";
+}
+function setSavedKey(k){
+  localStorage.setItem("OPENAI_API_KEY", k);
+}
+function clearSavedKey(){
+  localStorage.removeItem("OPENAI_API_KEY");
+}
+
+async function aiGradeEnhance(baseResult){
+  // Улучшаем критерии: lq_awareness, lq_reflection, ws_work_org, ws_prof_context, ws_communication, bonus
+  // НЕ трогаем RO и ws_tech_accuracy (авто).
+  const key = getSavedKey();
+  if (!key) throw new Error("API key не задан.");
+
+  const payload = {
+    model: "gpt-4.1-mini",
+    input: [
+      {
+        role: "system",
+        content: [
+          { type: "text", text:
+`Ты — эксперт по оцениванию практического задания.
+Верни строго JSON вида:
+{
+ "scores_by_criteria": {
+  "lq_awareness": 0-10,
+  "lq_reflection": 0-10,
+  "ws_work_org": 0-5,
+  "ws_prof_context": 0-5,
+  "ws_communication": 0-5,
+  "bonus": 0-10
+ },
+ "issues": [{"criterion_id":"...", "severity":"info|warn|critical", "message":"..."}],
+ "recommendations": ["..."]
+}
+Условия:
+- Оценивай по предоставленным данным.
+- Самостоятельность/взаимодействие не оценивай (это вручную).
+- Учитывай профиль тематики и HTML.` }
+        ]
+      },
+      {
+        role: "user",
+        content: [
+          { type: "text", text: "Профиль тематики: " + baseResult.meta.profile },
+          { type: "text", text: "HTML:\n" + (loadedHTML || "") },
+          { type: "text", text: "Тексты студентов:\n" + JSON.stringify(baseResult.evidence.student_inputs, null, 2) },
+          { type: "text", text: "Автопроверки:\n" + JSON.stringify(baseResult.evidence.auto_checks, null, 2) }
+        ]
+      }
+    ]
+  };
+
+  const resp = await fetch("https://api.openai.com/v1/responses", {
+    method: "POST",
+    headers: {
+      "Authorization": "Bearer " + key,
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  if (!resp.ok){
+    const t = await resp.text();
+    throw new Error("OpenAI API error: " + t);
+  }
+
+  const data = await resp.json();
+
+  // Извлекаем текстовый вывод
+  const outText = (data.output || [])
+    .flatMap(o => (o.content || []).map(c => c.text).filter(Boolean))
+    .join("\n");
+
+  let j;
+  try { j = JSON.parse(outText); }
+  catch(e){ throw new Error("ИИ вернул не-JSON. Ответ:\n" + outText); }
+
+  // Обновляем только часть критериев
+  const updated = structuredClone(baseResult);
+
+  const patch = j.scores_by_criteria || {};
+  const map = ["lq_awareness","lq_reflection","ws_work_org","ws_prof_context","ws_communication","bonus"];
+  for (const k of map){
+    if (k in patch){
+      const max = (k === "ws_work_org" || k === "ws_prof_context" || k === "ws_communication") ? 5 : 10;
+      updated.scores_by_criteria[k] = clampInt(patch[k], 0, max);
+    }
+  }
+
+  // Пересчёт сумм
+  updated.sums.RO = updated.scores_by_criteria.ro_html_basic_tags + updated.scores_by_criteria.ro_structure_nesting + updated.scores_by_criteria.ro_syntax_errors;
+  updated.sums.LESSON_QUALITY = updated.scores_by_criteria.lq_awareness + updated.scores_by_criteria.lq_independence + updated.scores_by_criteria.lq_pair_interaction + updated.scores_by_criteria.lq_reflection;
+  updated.sums.WORLDSKILLS = updated.scores_by_criteria.ws_work_org + updated.scores_by_criteria.ws_tech_accuracy + updated.scores_by_criteria.ws_prof_context + updated.scores_by_criteria.ws_communication;
+  updated.sums.BONUS = updated.scores_by_criteria.bonus;
+
+  updated.total_score = updated.sums.RO + updated.sums.LESSON_QUALITY + updated.sums.WORLDSKILLS + updated.sums.BONUS;
+  updated.level = levelByScore(updated.total_score);
+
+  // Issues/reco — объединяем (без дублей по тексту)
+  const issueTexts = new Set(updated.issues.map(x => x.criterion_id + "|" + x.message));
+  for (const it of (j.issues || [])){
+    const key2 = (it.criterion_id||"") + "|" + (it.message||"");
+    if (!issueTexts.has(key2)){
+      updated.issues.push(it);
+      issueTexts.add(key2);
+    }
+  }
+  const recoSet = new Set(updated.recommendations);
+  for (const r of (j.recommendations || [])){
+    if (!recoSet.has(r)){
+      updated.recommendations.push(r);
+      recoSet.add(r);
+    }
+  }
+
+  updated.meta.ai_used = true;
+  return updated;
+}
+
+/* =========================
+   EVENTS
+========================= */
+$("useAI").addEventListener("change", ()=>{
+  $("aiBox").classList.toggle("hidden", !$("useAI").checked);
+  $("apiKey").value = getSavedKey();
+});
+
+$("btnSaveKey").addEventListener("click", ()=>{
+  const k = ($("apiKey").value||"").trim();
+  if (!k){ alert("Введите ключ."); return; }
+  setSavedKey(k);
+  alert("Ключ сохранён в этом браузере.");
+});
+
+$("btnClearKey").addEventListener("click", ()=>{
+  clearSavedKey();
+  $("apiKey").value = "";
+  alert("Ключ удалён.");
+});
+
+$("btnAIGrade").addEventListener("click", async ()=>{
+  try{
+    if (!lastResult){
+      alert("Сначала выполните обычную проверку («Проверить и выставить баллы»).");
+      return;
+    }
+    const upd = await aiGradeEnhance(lastResult);
+    lastResult = upd;
+    renderResult(upd);
+    alert("ИИ-оценка применена к критериям, зависящим от текста/контекста.");
+  }catch(e){
+    alert(String(e));
+  }
+});
+
+$("fileHtml").addEventListener("change", async ()=>{
+  const f = $("fileHtml").files?.[0];
+  if (!f){ loadedHTML = ""; return; }
+  loadedHTML = await readFileAsText(f);
+  $("htmlView").value = loadedHTML;
+});
+
+$("btnEvaluate").addEventListener("click", ()=>{
+  // если нужно — просим учителя выставить ручные баллы
+  if (!localStorage.getItem("lq_independence") || !localStorage.getItem("lq_pair_interaction")){
+    const want = confirm("Похоже, ручные баллы учителя (самостоятельность/взаимодействие/бонус) не заданы. Задать сейчас?");
+    if (want) promptTeacherScores();
+  }
+
+  lastResult = buildResultFromLocal();
+  renderResult(lastResult);
+});
+
+$("btnReset").addEventListener("click", ()=>{
+  if (!confirm("Сбросить форму? (Ключ API и ручные баллы останутся в браузере)")) return;
+  $("fileHtml").value = "";
+  loadedHTML = "";
+  $("htmlView").value = "";
+  $("studentA").value = "";
+  $("studentB").value = "";
+  $("txtAwareness").value = "";
+  $("txtReflection").value = "";
+  $("txtWorkOrg").value = "";
+  $("txtCommunication").value = "";
+  lastResult = null;
+
+  setText("totalScore","—");
+  setText("level","—");
+  setText("sumRO","—"); setText("sumLesson","—"); setText("sumWS","—"); setText("sumBonus","—");
+  $("scoreRows").innerHTML = "";
+  $("issues").innerHTML = "";
+  $("reco").innerHTML = "";
+  setText("foundTags","—"); setText("missingTags","—"); setText("nestingOk","—"); setText("parseOk","—"); setText("contextHint","—");
+});
+
+$("btnExportJson").addEventListener("click", ()=>{
+  if (!lastResult){ alert("Сначала выполните проверку."); return; }
+  const blob = new Blob([JSON.stringify(lastResult, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const nA = (lastResult.meta.studentA || "A").replace(/\s+/g,"_");
+  const nB = (lastResult.meta.studentB || "B").replace(/\s+/g,"_");
+  a.href = url;
+  a.download = `grade_${nA}_${nB}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+$("btnPrint").addEventListener("click", ()=>window.print());
+
+$("btnToggleHtml").addEventListener("click", ()=>{
+  $("htmlBox").classList.toggle("hidden");
+});
+
+/* Подсказка про ручные баллы: удобно держать как быстрый доступ через двойной клик по заголовку */
+document.querySelector(".rightcol .title").addEventListener("dblclick", promptTeacherScores);
+
+/* Init */
+(function init(){
+  $("apiKey").value = getSavedKey();
+})();
+</script>
+
+</body>
+</html>
